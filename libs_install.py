@@ -6,7 +6,7 @@ Below code is to input a file from terminal using '-f' flag.
 # import sys
 # py_file = sys.argv[1]
 
-rll = ['wheel'] # required libraries list
+rll = ['tensorflow'] # required libraries list
 till = [] # to be installed libraries list
 nfp = [] # not found in pip
 
