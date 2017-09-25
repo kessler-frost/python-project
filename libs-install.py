@@ -1,15 +1,10 @@
 import subprocess as sp
 
 """
-Below code is to input a file as text from terminal using '-f' flag.
+Below code is to input a file from terminal using '-f' flag.
 """
-# import argparse
-#
-# parser = argparse.ArgumentParser()
-# parser.add_argument("--file", "-f", type = str, required = True)
-# args = parser.parse_args()
-#
-# py_file = args.file
+# import sys
+# py_file = sys.argv[1]
 
 rll = ['wheel'] # required libraries list
 till = [] # to be installed libraries list
