@@ -8,7 +8,7 @@
 import re
 
 
-def get_parenthesis_list(code):
+def get_parenthesis_lis(code):
     parenthesis = []
     for element in code:
         if element == "(" or element == ")":
@@ -39,14 +39,15 @@ def indent_functions(functions, parenthesis, indentation):
         return indent
 
     indentation_list = get_indentation(parenthesis)
-    for index, function in enumerate(functions):
-        indented_function_calls.append(indentation + make_indent(indentation_list[index]) + "calls function " + function)
+    for index, func in enumerate(functions):
+        indented_function_calls.append(indentation + make_indent(indentation_list[index]) + "calls function " + func)
     return indented_function_calls
 
 
 def get_methods(filename):
 
     class_names, function_names, method_tree, check = [], [], [], 0
+    indentation = ""
 
     for code in open(filename, encoding="utf-8").read().split("\n"):
 
@@ -55,18 +56,19 @@ def get_methods(filename):
         cs = re.findall(r"\s*class\s+\w+\(.*\)|\s*class\s+\w+", code)
         fs = re.findall(r"\s*def\s+\w+\(.*\)", code)
         fc = re.findall(r"(\w*)\(", code)
-
         if len(cn) != 0:
             check = 1
-            class_names.append(cn[0])
+            if type(cn[0]) == tuple:
+                class_names.append(cn[0][0])
             method_tree.append(cs[0])
+            indentation = re.match(r"(\s*).*", cs[0]).groups()[0] + "\t"
         if len(fn) != 0:
             check = 1
             function_names.append(fn[0])
             method_tree.append(fs[0])
             indentation = re.match(r"(\s*).*", fs[0]).groups()[0] + "\t"
         if check == 0 and len(fc) != 0 and fc[0] != '':
-            parenthesis = get_parenthesis_list(code)
+            parenthesis = get_parenthesis_lis(code)
             indented_functions = indent_functions(fc, parenthesis, indentation)
             for function in indented_functions:
                 method_tree.append(function)
