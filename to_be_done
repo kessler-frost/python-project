@@ -2,7 +2,7 @@
 2. Python Version currently being used ~ done
 3. If not installed, prompt user to install them ~ done
 4. Function tree ~ done
-5. Function name - source table ~ in progress
+5. Function name - source table ~ done
 6. Check PEP-8 rules ~ done
 7. Download and install pip if not present
 8. Convert 2.x code to 3.x code
