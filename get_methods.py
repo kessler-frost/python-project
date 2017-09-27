@@ -8,7 +8,7 @@
 import re
 
 
-def get_parenthesis_lis(code):
+def get_parenthesis_list(code):
     parenthesis = []
     for element in code:
         if element == "(" or element == ")":
@@ -66,7 +66,7 @@ def get_methods(filename):
             method_tree.append(fs[0])
             indentation = re.match(r"(\s*).*", fs[0]).groups()[0] + "\t"
         if check == 0 and len(fc) != 0 and fc[0] != '':
-            parenthesis = get_parenthesis_lis(code)
+            parenthesis = get_parenthesis_list(code)
             indented_functions = indent_functions(fc, parenthesis, indentation)
             for function in indented_functions:
                 method_tree.append(function)
