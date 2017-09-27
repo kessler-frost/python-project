@@ -1,10 +1,47 @@
 # format class 1 : class name(params)
 # format class 2 : class name
 # format func origin : def name(params)
-# format func called : name(params)
+# format func called 1 : name(params)
+# format func called 2 : name(name(params))
 
 
 import re
+
+
+def get_parenthesis_lis(code):
+    parenthesis = []
+    for element in code:
+        if element == "(" or element == ")":
+            parenthesis.append(element)
+
+    return parenthesis
+
+
+def get_indentation(parenthesis):
+    indentation_list = [0]
+    current_indentation = 0
+    for paran in parenthesis[1:]:
+        if paran == ')':
+            current_indentation -= 1
+        elif paran == '(':
+            current_indentation += 1
+            indentation_list.append(current_indentation)
+    return indentation_list
+
+
+def indent_functions(functions, parenthesis, indentation):
+    indented_function_calls = []
+
+    def make_indent(value):
+        indent = ""
+        for x in range(value):
+            indent += "\t"
+        return indent
+
+    indentation_list = get_indentation(parenthesis)
+    for index, function in enumerate(functions):
+        indented_function_calls.append(indentation + make_indent(indentation_list[index]) + "calls function " + function)
+    return indented_function_calls
 
 
 def get_methods(filename):
@@ -29,8 +66,10 @@ def get_methods(filename):
             method_tree.append(fs[0])
             indentation = re.match(r"(\s*).*", fs[0]).groups()[0] + "\t"
         if check == 0 and len(fc) != 0 and fc[0] != '':
-            for func in fc:
-                method_tree.append(indentation + "calls function " + str(func))
+            parenthesis = get_parenthesis_lis(code)
+            indented_functions = indent_functions(fc, parenthesis, indentation)
+            for function in indented_functions:
+                method_tree.append(function)
         check = 0
 
     return method_tree, class_names, function_names
