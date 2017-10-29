@@ -151,7 +151,6 @@ def get_libs(filename_list):
 
 
 def install_pip():
-    import platform
     import subprocess as sp
     import urllib.request
 
@@ -166,6 +165,7 @@ def install_pip():
         ex, s = sp.getstatusoutput('python get-pip.py; pip -V')
         if ex == 0:
             print('Pip has been installed successfully.')
+            sp.getstatusoutput('rm get-pip.py')
             return 0
         else:
             print('The following error occurred while installing pip.')
@@ -484,3 +484,5 @@ if yn == 'y':
     py2to3_conversion(files)
 else:
     pass
+    
+print("\nThanks for using our script! :)")
