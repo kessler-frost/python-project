@@ -350,7 +350,7 @@ def get_method_source(filename_list):
     store.close()
 
 
-def pep8_check(filename_list):
+def pep8_verify(filename_list):
 
     import subprocess as sp
 
@@ -390,22 +390,23 @@ def pep8_check(filename_list):
 
     ex, s = sp.getstatusoutput('pip freeze | grep pep8')
 
-    if ex == 0:
-        pep8_check()
+    for filename in filename_list:
+        if ex == 0:
+            pep8_check(filename)
 
-    else:
-        yn = input("Pep8 is not installed. Do you wish to install pep8 to improve code formatting? y/n ")
-
-        if yn == 'y':
-            ex, s = sp.getstatusoutput('pip install pep8')
-            if ex == 0:
-                print("Pep8 successfully installed.")
-                pep8_check()
-            else:
-                print("The below error occurred while installing pep8: ")
-                print(s)
         else:
-            pass
+            yn = input("Pep8 is not installed. Do you wish to install pep8 to improve code formatting? y/n ")
+
+            if yn == 'y':
+                ex, s = sp.getstatusoutput('pip install pep8')
+                if ex == 0:
+                    print("Pep8 successfully installed.")
+                    pep8_check(filename)
+                else:
+                    print("The below error occurred while installing pep8: ")
+                    print(s)
+            else:
+                pass
 
 
 def py2to3_conversion(filename_list):
@@ -475,7 +476,7 @@ else:
 
 yn = input("Do you want to run Module - Pep8 format verification? y/n ")
 if yn == 'y':
-    pep8_check(files)
+    pep8_verify(files)
 else:
     pass
 
