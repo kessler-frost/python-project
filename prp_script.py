@@ -366,11 +366,11 @@ def pep8_verify(filename_list):
 
     #py_file = 'filename.py'
 
-    def pep8_check(filename):
+    def pep8_check(fl_list):
 
         aspn = input("Do you wish to run pep8 test for all the given files or seperately or none at all? a/s/n ")
         if aspn == 'a':
-            for filename in filename_list:
+            for filename in fl_list:
                 print("Running pep8 check for " + filename + "... ")
                 ex, s = sp.getstatusoutput('pep8 ' + filename +
                                             ' > ' + filename + '_pep8.txt')
@@ -381,7 +381,7 @@ def pep8_verify(filename_list):
                     print("Pep8 check complete, the details have been stored in " + filename + "_pep8.txt.")
 
         elif aspn == 's':
-            for filename in filename_list:
+            for filename in fl_list:
                 yn = input("Run pep8 test for " + filename + " ? y/n ")
                 if yn == 'y':
                     print("Running pep8 check for " + filename + "... ")
@@ -400,23 +400,22 @@ def pep8_verify(filename_list):
 
     ex, s = sp.getstatusoutput('pip freeze | grep pep8')
 
-    for filename in filename_list:
-        if ex == 0:
-            pep8_check(filename)
+    if ex == 0:
+        pep8_check(filename_list)
 
-        else:
-            yn = input("Pep8 is not installed. Do you wish to install pep8 to improve code formatting? y/n ")
+    else:
+        yn = input("Pep8 is not installed. Do you wish to install pep8 to improve code formatting? y/n ")
 
-            if yn == 'y':
-                ex, s = sp.getstatusoutput('pip install pep8')
-                if ex == 0:
-                    print("Pep8 successfully installed.")
-                    pep8_check(filename)
-                else:
-                    print("The below error occurred while installing pep8: ")
-                    print(s)
+        if yn == 'y':
+            ex, s = sp.getstatusoutput('pip install pep8')
+            if ex == 0:
+                print("Pep8 successfully installed.")
+                pep8_check(filename_list)
             else:
-                pass
+                print("The below error occurred while installing pep8: ")
+                print(s)
+        else:
+            pass
 
 
 def py2to3_conversion(filename_list):
