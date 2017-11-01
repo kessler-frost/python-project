@@ -341,7 +341,7 @@ def get_method_source(filename_list):
     for f in range(len(filename_list)):
         store.write('Method source tree for ' + filename_list[f] + ' is:\n')
         for s in all_method_trees[f]:
-            store.write(s)
+            store.write(s + "\n")
             
         store.write("\n\n")
     store.close()
