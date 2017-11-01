@@ -253,9 +253,6 @@ def get_methods(filename):
     import re
     from nltk.tokenize import word_tokenize
 
-    def preprocess(code):
-        return re.sub(r"\".*\"", code, "")
-
 
     def get_parenthesis_list(code):
         parenthesis = []
@@ -297,8 +294,6 @@ def get_methods(filename):
     indentation = ""
 
     for code in open(filename, encoding="utf-8").read().split("\n"):
-
-        code = preprocess(code)
 
         if len(code) != 0 and word_tokenize(code)[0] != "#":
             cn = re.findall(r"\s*class\s+(\w+)|\s*class\s+(\w+)\(.*\)", code)
