@@ -327,13 +327,27 @@ def get_method_source(filename_list):
     tree_output_file = "method_source_tree.txt"
     store = open(tree_output_file, "w", encoding="utf-8")
     methods = []
+    all_method_trees = []
+    
     for filename in filename_list:
-        dummy, name_one, name_two = get_methods(filename)
+        method_tree, name_one, name_two = get_methods(filename)
+        all_method_trees.append(method_tree)
         for name in name_one:
             methods.append(name)
         for name in name_two:
             methods.append(name)
     max_width = max(len(method_name) for method_name in methods)
+    
+    for f in range(len(filename_list)):
+        store.write('Method source tree for ' + filename_list[f] + ' is:\n')
+        for s in all_method_trees[f]:
+            store.write(s)
+            
+        store.write("\n\n")
+    store.close()
+    
+    indexing_file = "indexed_files.txt"
+    store = open(indexing_file, 'w', encoding="utf-8")    
     store.write("NAME".ljust(max_width + 5) + "TYPE\t\t\t" + "LOCATION" + "\n\n\n")
     for filename in filename_list:
         method_tree, class_names, function_names = get_methods(filename)
@@ -343,6 +357,7 @@ def get_method_source(filename_list):
             store.write(str(function_name).ljust(max_width + 5) + "function\t\t" + str(filename) + "\n")
         store.write("\n\n")
     store.close()
+    return all_method_trees
 
 
 def pep8_verify(filename_list):
@@ -464,8 +479,20 @@ else:
 
 yn = input("Do you want to run Module - Method source tree with class and file names? y/n ")
 if yn == 'y':
-    get_method_source(files)
-    print("The tree has been written to a file named method_source_tree.txt in the current directory.")
+    all_method_trees = get_method_source(files)
+    print("The tree has been written to a file named method_source_tree.txt and the index of all classes and functions to a file named indexed_files.txt in the current directory.")
+    
+    yn = input("Do you want to see the method trees for all files here as well? y/n ")
+    if yn == 'y':
+        for f in range(len(files)):
+            print("\n")
+            print("Method tree for file " + files[f])
+            for s in all_method_trees[f]:
+                print(s)
+                
+        print("\n\n")
+    else:
+        pass
 else:
     pass
 
