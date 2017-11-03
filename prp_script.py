@@ -17,6 +17,8 @@ args = vars(ps.parse_args())
 if args['all'] is True:
     print("Using all the python files in current directory...")
     files = sp.getoutput('ls -a *.py').strip().split('\n')
+    if 'prp_script.py' in files:
+        files.remove('prp_script.py')
 else:
     files = args['files_list']
     if len(files) < 1:
@@ -294,7 +296,8 @@ def get_methods(filename):
     indentation = ""
 
     for code in open(filename, encoding="utf-8").read().split("\n"):
-
+        if len(word_tokenize(code)) == 0:
+            continue
         if len(code) != 0 and word_tokenize(code)[0] != "#":
             cn = re.findall(r"\s*class\s+(\w+)|\s*class\s+(\w+)\(.*\)", code)
             fn = re.findall(r"\s*def\s+(\w+)\(.*\):", code)
