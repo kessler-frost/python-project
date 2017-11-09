@@ -440,7 +440,7 @@ def py2to3_conversion(filename_list):
 
     elif aspn == 's':
         for filename in filename_list:
-            yn = input("Convert " + filename + " from python 2 to python 3? y/n")
+            yn = input("Convert " + filename + " from python 2 to python 3? y/n ")
             if yn == 'y':
                 command = '2to3 -w ' + filename # -w flag is used to write the converted text back to source file
 
